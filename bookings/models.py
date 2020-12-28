@@ -53,6 +53,7 @@ class PASSENGER(models.Model):
     PHONE = models.CharField(max_length = 12)
     airplane_number = models.ForeignKey(AIRPLANE, on_delete=models.CASCADE, default = 0)
     seat_number = models.ForeignKey(SEAT, on_delete=models.CASCADE)
+    user = models.ForeignKey(USER_INFO, on_delete=models.RESTRICT, default= 0)
 class FARE(models.Model):
     trip_id = models.ForeignKey(FLIGHT_TRIP, on_delete=models.CASCADE)
     AMOUNT = models.FloatField(max_length = 6)
