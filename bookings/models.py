@@ -1,13 +1,17 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
-class User(models.Model):
-    UID = models.AutoField(primary_key = True)
-    FNAME = models.CharField(max_length = 30)
-    LNAME = models.CharField(max_length = 30)
-    EMAIL = models.EmailField(max_length = 100, unique = True)
-    PHONE = models.CharField(max_length = 12, unique = True)
+# class User(models.Model):
+#     UID = models.AutoField(primary_key = True)
+#     FNAME = models.CharField(max_length = 30)
+#     LNAME = models.CharField(max_length = 30)
+#     EMAIL = models.EmailField(max_length = 100, unique = True)
+#     PHONE = models.CharField(max_length = 12, unique = True)
 
+class USER_INFO(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length = 13)
+    profile_pic = models.ImageField(upload_to='profile_pics', blank=True) 
 class Airline_Company(models.Model):
     CID = models.AutoField(primary_key = True)
     COMPANY_NAME = models.CharField(max_length = 100)
@@ -47,8 +51,8 @@ class PASSENGER(models.Model):
     FNAME = models.CharField(max_length = 30)
     LNAME = models.CharField(max_length = 30)
     PHONE = models.CharField(max_length = 12)
-    seat_number = models.ForeignKey(AIRPLANE, on_delete=models.CASCADE)
-
+    airplane_number = models.ForeignKey(AIRPLANE, on_delete=models.CASCADE, default = 0)
+    seat_number = models.ForeignKey(SEAT, on_delete=models.CASCADE)
 class FARE(models.Model):
     trip_id = models.ForeignKey(FLIGHT_TRIP, on_delete=models.CASCADE)
     AMOUNT = models.FloatField(max_length = 6)
