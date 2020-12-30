@@ -63,3 +63,6 @@ def user_login(request):
             return HttpResponse("Invalid login details given")
     else:
         return render(request, 'bookings/login.html', {})
+
+def payments(request):
+    return render(request,'bookings/payments.html')
