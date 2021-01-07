@@ -1,0 +1,39 @@
+{% extends "bookings/base.html" %}
+{% block body_block %}<div class="container-fluid">
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <!-- <td rowspan="2"></td> -->
+            <th scope="col" rowspan="2">Airplane Number</th>
+            <th scope="col" rowspan="2">Departure Time</th>
+            <th scope="col" rowspan="2">Destination Airport</th>
+            <th scope="col" rowspan="2">Arival Time</th>
+            <th scope="col" rowspan="2">Arival Airport</th>
+            <th scope="colgroup" colspan="3">Available Seats</th>
+            <th scope="col" rowspan="2">Price</th>
+            <th scope="col" rowspan="2">Currency</th>
+          </tr>
+          <tr>
+            <th scope="col">F</th>
+            <th scope="col">B</th>
+            <th scope="col">E</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><a role="button" class="btn btn-success" href="#">Book now</a></td>
+        </tr>
+        </tbody>
+        </table>
+</div>
+{% endblock%}

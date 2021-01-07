@@ -1,0 +1,50 @@
+{% extends "bookings/base.html" %}
+{% block body_block %}
+<form method = "POST" >
+        {% csrf_token %}
+<div class="container-fluid">
+    <table class="table table-bordered" id="passenger">
+        <thead>
+          <tr>
+            <th scope="col"><label for="fname" class="font-weight-bold">First name</label>
+            <th scope="col"><label for="lname" class="font-weight-bold">Last name</label>
+            <th scope="col"><label for="phone" class="font-weight-bold">Phone number</label>
+            <th scope="col"><label for="sex" class="font-weight-bold">Sex</label>
+            <th scope="col"><label for="class" class="font-weight-bold">Class</label>
+        </thead>
+        <tbody>
+        <tr>
+            <td id="col0">
+                <input class="form-control" name="fname" placeholder="First Name" type="text"/>
+            </td>
+            <td id="col1">
+                <input class="form-control" name="lname" placeholder="Last Name" type="text"/>
+            </td>
+            <td id="col2">
+                <input class="form-control" name="phone" placeholder="Phone number" type="tel" minlength="10" maxlength="15"/>
+            </td>
+            <td id="col3">
+                <select class="form-select form-select-sm" name="class" aria-label=".form-select-sm example">
+                  <option selected>Sex</option>
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>                </select>
+              </td>
+            <td id="col4">
+            <select class="form-select form-select-sm" name="class" aria-label=".form-select-sm example">
+              <option selected>Class</option>
+              <option value="1">First</option>
+              <option value="2">Economy</option>
+              <option value="3">Business</option>
+            </select>
+              </td>
+        </tr>
+        </tbody>
+        </table>
+    <button class="btn btn-success" type="submit">Submit</button>
+    </form>
+    <input class="btn btn-outline-success" type="button" id="addRow" onclick="addRows()" value="+"></input>
+    <input class="btn btn-outline-danger" type="button" id="addRow" onclick="deleteRows()" value="-"></input>
+    
+
+</div>
+{% endblock%}

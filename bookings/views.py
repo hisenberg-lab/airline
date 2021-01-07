@@ -64,5 +64,13 @@ def user_login(request):
     else:
         return render(request, 'bookings/login.html', {})
 
-def payments(request):
-    return render(request,'bookings/payments.html')
+def payment(request):
+    return render(request,'bookings/payment.html')
+
+@login_required
+def search(request):
+    return render(request, "bookings/result.html")
+
+@login_required
+def book(request):
+    return render(request, "bookings/book.html")

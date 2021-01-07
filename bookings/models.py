@@ -13,6 +13,11 @@ GENDER = (
     ("F", "FEMALE")
 )
 
+seat_class = (
+    ("F","FIRST"),
+    ("B", "BUSINESS"),
+    ("E", "ECONOMY")
+)
 class USER_INFO(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length = 13)
@@ -40,11 +45,11 @@ class ACCESS(models.Model):
 
 class FLIGHT_TRIP(models.Model):
     TRIP_ID = models.AutoField(primary_key =True)
-    airplane_number = models.ForeignKey(AIRPLANE, on_delete=models.CASCADE)
+    airplane_number = models.ForeignKey(AIRPLANE,to_field= 'AIRPLANE_NUMBER', on_delete=models.CASCADE)
     DEPART_TIME = models.DateTimeField()
-    DESTINATION_AIRPORT = models.ForeignKey(AIRPORT, on_delete=models.CASCADE, related_name= 'destination')
+    DESTINATION_AIRPORT = models.ForeignKey(AIRPORT,to_field= 'AIRPORT_CODE', on_delete=models.CASCADE, related_name= 'destination')
     ARIVAL_TIME = models.DateTimeField()
-    ARIVAL_AIRPORT = models.ForeignKey(AIRPORT, on_delete=models.CASCADE, related_name= 'arival')
+    ARIVAL_AIRPORT = models.ForeignKey(AIRPORT,to_field= 'AIRPORT_CODE', on_delete=models.CASCADE, related_name= 'arival')
 
 class SEAT(models.Model):
     id = models.AutoField(primary_key = True)
@@ -56,11 +61,11 @@ class PASSENGER(models.Model):
     PID = models.AutoField(primary_key = True)
     FNAME = models.CharField(max_length = 30)
     LNAME = models.CharField(max_length = 30)
-    PHONE = models.CharField(max_length = 12)
+    PHONE = models.CharField(max_length = 15)
     airplane_number = models.ForeignKey(AIRPLANE,to_field= 'AIRPLANE_NUMBER', on_delete=models.CASCADE)
     # seat_number = models.ForeignKey(SEAT, on_delete=models.CASCADE)
     SEX = models.CharField(choices = GENDER ,max_length = 1)
-    PHONE = models.IntegerField()
+    CLASS = models.CharField(choices = seat_class, max_length = 1)
     user = models.ForeignKey(USER_INFO, on_delete=models.RESTRICT)
 class FARE(models.Model):
     trip_id = models.ForeignKey(FLIGHT_TRIP,to_field= 'TRIP_ID', on_delete=models.CASCADE)

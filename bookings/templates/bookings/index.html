@@ -1,5 +1,5 @@
 {% extends "bookings/base.html" %}
-{% block body_block %}<div class="container">
+{% block body_block %}<div class="container-fluid">
   <div class="jumbotron">
     <h1>Welcome to the AMC Airlines !</h1>
     {% if user.is_authenticated %}
@@ -8,4 +8,68 @@
         <h2>Register or Login if you'd like to</h2>
     {% endif %}
   </div>
-</div>{% endblock %}
+</div>
+
+<div>
+  <form method = "POST" action={% url 'result' %}>.
+    {% csrf_token %}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col"><label for="from" class="font-weight-bold">From</label>
+          </th>
+          <th scope="col"><label for="to" class="font-weight-bold">To</label>
+          </th>
+          <th scope="col">Trip way</th>
+          <th scope="col"><label for="departure-date" class="font-weight-bold">Departure date</label>
+          <th scope="col"><label for="return-date" class="font-weight-bold">Return date</label>
+          <th scope="col"><label for="number-of-travellers" class="font-weight-bold">Number of Travellers</label>
+          <th scope="col"><label for="class" class="font-weight-bold">Class</label>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <input class="form-control" name="from" placeholder="From" type="text"/>
+          </td>
+          <td>
+            <input class="form-control" name="to" placeholder="To" type="text"/>
+          </td>
+          <td>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="one-way">
+              <label class="form-check-label" for="one-way">
+                One Way
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="round-tip" checked>
+              <label class="form-check-label" for="round-tip">
+                Round trip
+              </label>
+            </div>
+          </td>
+          <td>
+              <input class="form-control" name="departure-date" placeholder="departure" type="date"/>
+          </td>
+          <td>
+            <input class="form-control" name="return-date" placeholder="return" type="date"/>
+        </td>
+        <td>
+          <input class="form-control" name="number-of-travellers" placeholder="Number of travellers" type="number" min="0" max="100" />
+        </td>
+        <td>
+          <select class="form-select form-select-sm" name="class" aria-label=".form-select-sm example">
+            <option selected>Class</option>
+            <option value="1">First</option>
+            <option value="2">Economy</option>
+            <option value="3">Business</option>
+          </select>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+  <button class="btn btn-primary" type="submit">Search</button>
+  </form>
+</div>
+{% endblock %}
