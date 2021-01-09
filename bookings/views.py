@@ -4,10 +4,12 @@ from bookings.forms import UserForm, UserProfileInfoForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from bookings.models import AIRPORT, USER_INFO, Airline_Company, AIRPLANE, AIRPORT, ACCESS, FLIGHT_TRIP, SEAT, PASSENGER, FARE
 
 # Create your views here.
 def index(request):
-    return render(request,'bookings/index.html')
+    airport = AIRPORT.objects.all()
+    return render(request,'bookings/index.html', {'airports' : airport})
 
 
 @login_required
@@ -69,8 +71,60 @@ def payment(request):
 
 @login_required
 def search(request):
-    return render(request, "bookings/result.html")
+    if request.method == 'POST':
+        fromPlace = request.POST.get('from')
+        toPlace = request.POST.get('to')
+        oneWay = request.POST.get('one-way')
+        roundTrip = request.POST.get('round-trip')
+        departure = request.POST.get('departure-date')
+        returnDate = request.POST.get('return-date')
+        travellers = request.POST.get('number-of-travellers')
+        seatClass = request.POST.get('class')
+        print(fromPlace,toPlace,oneWay,roundTrip,departure,returnDate,travellers,seatClass)
+
+        flightTrip = FLIGHT_TRIP.objects.filter(DEPARTURE_AIRPORT__exact = fromPlace , ARIVAL_AIRPORT__exact = toPlace, )
+        
+        if oneWay == '1':
+            flightTrip = flightTrip.select_related('airplane_number').filter(DEPART_TIME__date = departure).values()
+            airplanes = flightTrip.values_list('airplane_number','TRIP_ID')
+            airports = flightTrip.values_list('DEPARTURE_AIRPORT','ARIVAL_AIRPORT')
+            if flightTrip and airplanes != None:
+                airplane_number, trip_id= zip(*airplanes)
+                depart, arival = zip(*airports)
+                seat = SEAT.objects.filter(airplane_number__in = airplane_number, trip_id__in = trip_id)
+                fare = FARE.objects.filter(trip_id__in = trip_id)
+                departAirport = AIRPORT.objects.filter(AIRPORT_CODE__in = depart)
+                arivalAirport = AIRPORT.objects.filter(AIRPORT_CODE__in = arival)
+                # print(flightTrip.values(), seat.values(), fare.values())
+                content = {
+                    'planes' : zip(flightTrip.values(), seat.values(), fare.values(), departAirport.values(), arivalAirport.values())
+                }
+                return render(request, "bookings/result.html", content)
+            else:
+                return render(request, "bookings/result.html", {'available' : False})
+        elif roundTrip == '2':
+            flightTrip = flightTrip.select_related('airplane_number').filter(DEPART_TIME__date = departure, ARIVAL_TIME__date = returnDate).values()
+            airplanes = flightTrip.values_list('airplane_number','TRIP_ID')
+            airports = flightTrip.values_list('DEPARTURE_AIRPORT','ARIVAL_AIRPORT')
+            # print(depart)
+            if flightTrip and airplanes != None:
+                airplane_number, trip_id= zip(*airplanes)
+                depart, arival = zip(*airports)
+                seat = SEAT.objects.filter(airplane_number__in = airplane_number, trip_id__in = trip_id)
+                fare = FARE.objects.filter(trip_id__in = trip_id)
+                departAirport = AIRPORT.objects.filter(AIRPORT_CODE__in = depart)
+                arivalAirport = AIRPORT.objects.filter(AIRPORT_CODE__in = arival)
+                # print(flightTrip.values(), seat.values(), fare.values(), departAirport.values(), arivalAirport.values())
+                content = {
+                    'planes' : zip(flightTrip.values(), seat.values(), fare.values(), departAirport.values(), arivalAirport.values())
+                }
+                return render(request, "bookings/result.html", content)
+            else:
+                return render(request, "bookings/result.html", {'available' : False})
+    return HttpResponseRedirect(reverse('index'))
 
 @login_required
-def book(request):
+def book(request, tripId):
+    #    if request.method == 'POST':
+
     return render(request, "bookings/book.html")

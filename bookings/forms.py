@@ -1,5 +1,6 @@
 from django import forms
-from bookings.models import USER_INFO
+from django.forms import modelformset_factory
+from bookings.models import USER_INFO, PASSENGER
 from django.contrib.auth.models import User
 
 class UserForm(forms.ModelForm):
@@ -12,3 +13,5 @@ class UserProfileInfoForm(forms.ModelForm):
      class Meta():
          model = USER_INFO
          fields = ('phone','profile_pic')
+
+passengerSet = modelformset_factory( PASSENGER, exclude=("PID", "airplane_number","user",), extra = 1)

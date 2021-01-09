@@ -1,6 +1,6 @@
 {% extends "bookings/base.html" %}
 {% block body_block %}
-<form method = "POST" >
+<form method = "POST" action = "{ url 'book' }">
         {% csrf_token %}
 <div class="container-fluid">
     <table class="table table-bordered" id="passenger">
@@ -27,7 +27,8 @@
                 <select class="form-select form-select-sm" name="class" aria-label=".form-select-sm example">
                   <option selected>Sex</option>
                   <option value="M">Male</option>
-                  <option value="F">Female</option>                </select>
+                  <option value="F">Female</option>        
+                </select>
               </td>
             <td id="col4">
             <select class="form-select form-select-sm" name="class" aria-label=".form-select-sm example">

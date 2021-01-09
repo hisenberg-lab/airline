@@ -47,7 +47,7 @@ class FLIGHT_TRIP(models.Model):
     TRIP_ID = models.AutoField(primary_key =True)
     airplane_number = models.ForeignKey(AIRPLANE,to_field= 'AIRPLANE_NUMBER', on_delete=models.CASCADE)
     DEPART_TIME = models.DateTimeField()
-    DESTINATION_AIRPORT = models.ForeignKey(AIRPORT,to_field= 'AIRPORT_CODE', on_delete=models.CASCADE, related_name= 'destination')
+    DEPARTURE_AIRPORT = models.ForeignKey(AIRPORT,to_field= 'AIRPORT_CODE', on_delete=models.CASCADE, related_name= 'destination')
     ARIVAL_TIME = models.DateTimeField()
     ARIVAL_AIRPORT = models.ForeignKey(AIRPORT,to_field= 'AIRPORT_CODE', on_delete=models.CASCADE, related_name= 'arival')
 
@@ -57,6 +57,9 @@ class SEAT(models.Model):
     ECONOMY = models.IntegerField(default=0)
     BUSINESS = models.IntegerField(default=0)
     airplane_number = models.ForeignKey(AIRPLANE, to_field= 'AIRPLANE_NUMBER', on_delete=models.CASCADE)
+    trip_id = models.ForeignKey(FLIGHT_TRIP, to_field="TRIP_ID", on_delete=models.CASCADE)
+    class Meta:
+        unique_together = ("id", "trip_id")
 class PASSENGER(models.Model):
     PID = models.AutoField(primary_key = True)
     FNAME = models.CharField(max_length = 30)

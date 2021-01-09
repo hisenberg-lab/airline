@@ -32,5 +32,7 @@ function deleteRows(){
     }
 }
 
+// var add = document.querySelector("#addRow");
+// add.onclick = addRows();
 // document.getElementById('addRow').onclick = function() {addRows()};
 // console.log("Hi")
