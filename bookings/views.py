@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login, logout
-from bookings.forms import UserForm, UserProfileInfoForm
+from bookings.forms import UserForm, UserProfileInfoForm, passengerSet
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -123,8 +124,20 @@ def search(request):
                 return render(request, "bookings/result.html", {'available' : False})
     return HttpResponseRedirect(reverse('index'))
 
-@login_required
-def book(request, tripId):
+# @login_required
+class book(TemplateView):
     #    if request.method == 'POST':
+    template_name = "bookings/book.html"
+    def get(self, *args, **kwargs):
+        formset = passengerSet(queryset = PASSENGER.objects.none())
+        return self.render_to_response({'passenger_set':formset})
 
-    return render(request, "bookings/book.html")
+    def post(self, *args, **kwargs):
+        formset = passengerSet(data=self.request.POST)
+        if formset.is_valid():
+            p = formset.cleaned_data
+        
+            # d =formset.deleted_forms
+            print(p)
+            return HttpResponseRedirect(reverse("payment"))
+        return self.render_to_response({'passenger_set': formset})
