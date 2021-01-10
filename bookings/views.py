@@ -127,23 +127,35 @@ def search(request):
 @login_required
 def trip(request,tripId):
     request.session["tasks"] = tripId
+    request.session.modified = True
     return HttpResponseRedirect(reverse('book'))
 
-# @login_required
-class book(TemplateView):
+@login_required
+# class book(TemplateView):
+def book(request):
     #    if request.method == 'POST':
-    template_name = "bookings/book.html"
-    def get(self, *args, **kwargs):
+    # template_name = "bookings/book.html"
+    # def get(self, *args, **kwargs):
+    if request.method == "GET":
         formset = passengerSet(queryset = PASSENGER.objects.none())
-        return self.render_to_response({'passenger_set':formset})
+        return render(request, "bookings/book.html",{'passenger_set':formset})
 
-    def post(self, *args, **kwargs):
-        formset = passengerSet(data=self.request.POST)
+    # def post(self, *args, **kwargs):
+    if request.method == "POST":
+        formset = passengerSet(data=request.POST)
         if formset.is_valid():
             if formset.cleaned_data != {}:
-                p = formset.cleaned_data
-        
+                form = formset.cleaned_data
+                # print(p)
+                _ = filter(None, form)
+                p = []
+                for passenger in _:
+                    if passenger['DELETE'] == False:
+                        p.append(passenger)
+                request.session["passengers"] = p
+                request.session.modified = True
             # d =formset.deleted_forms
-            print(p)
+            # print(request.session["passengers"])
             return HttpResponseRedirect(reverse("payment"))
-        return self.render_to_response({'passenger_set': formset})
+        return render(request, "bookings/book.html",{'passenger_set':formset})
+    return HttpResponseRedirect(reverse('book'))

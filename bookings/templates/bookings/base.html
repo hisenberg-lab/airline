@@ -2,9 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Base</title>
     <!-- Latest compiled and minified CSS -->
     {% load static %}
+    <link rel="stylesheet" href="{% static 'bookings/Styling.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></head>
   <body>
     <nav class="navbar navbar-default navbar-static-top">
@@ -23,6 +25,7 @@
     {% block body_block %}
     {% endblock %}
     </div>
-    <script src="{% static 'bookings/scripts.js' %}"></script> 
+    <script src="{% static 'bookings/scripts.js' %}"></script>
+    
   </body>
 </html>
