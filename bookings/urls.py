@@ -10,6 +10,6 @@ urlpatterns = [
     path('book/', views.book, name = 'book'),
     path('user_login/', views.user_login, name = 'user_login'),
     path('payment/', views.payment, name = 'payment'),
-    path('trip/<tripId>', views.trip, name= 'trip')
+    path('trip/<tripId>/<airplane_number_id>', views.trip, name= 'trip')
 
 ]

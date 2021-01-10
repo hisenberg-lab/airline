@@ -57,6 +57,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
+                request.session['user_id'] = user.id
                 return HttpResponseRedirect(reverse('index'))
             else:
                 return HttpResponse("Your account was inactive.")
@@ -67,8 +68,60 @@ def user_login(request):
     else:
         return render(request, 'bookings/login.html', {})
 
+@login_required
 def payment(request):
-    return render(request,'bookings/payment.html')
+    User = int(request.session["user_id"])
+    trip = int(request.session["trip"])
+    # _ = AIRPLANE.objects.all()
+    # print(_.values())
+    # _ = SEAT.objects.all()
+    # print(_.values())
+    airplane = int(request.session["airplane"])
+    passengers = request.session["passengers"]
+    num_tickets = len(passengers)
+    # print(num_tickets)
+    if request.method == 'GET':
+        fare = FARE.objects.get(trip_id = trip)
+        # print(fare.id)
+        amount = fare.AMOUNT
+        discount = fare.DISCOUNT
+        tax = fare.TAX
+        print(tax)
+        currency = fare.CURRENCY
+        sub = amount*num_tickets-((discount/100)*(amount*num_tickets))
+        total = ((tax/100)*sub)+sub
+        print(total)
+        content ={"num_tickets":num_tickets, "amount":amount, "discount":discount, "tax":tax,"currency":currency, "total":total}
+        return render(request, 'bookings/payment.html',content )
+    elif request.method == 'POST':
+        F=0
+        B=0
+        E=0
+        for passenger in passengers:
+            fname = passenger['FNAME']
+            lname = passenger['LNAME']
+            phone = passenger['PHONE']
+            sex = passenger['SEX']
+            Class = passenger['CLASS']
+            if Class == 'F':
+                F+=1
+            elif Class == 'B':
+                B+=1
+            elif Class == 'E':
+                E+=1
+            seat = SEAT.objects.get(airplane_number = airplane, trip_id = trip)
+            First = seat.FIRST
+            Business = seat.BUSINESS
+            Economy = seat.ECONOMY
+            if (First - F) and (Business - B) and (Economy - E) !=0:
+                p = PASSENGER.objects.create(FNAME=fname, LNAME=lname, PHONE = phone, airplane_number_id = airplane, SEX = sex, CLASS = Class,user_id = User)
+                p.save()
+                print("INSERTED")
+                seat = SEAT.objects.filter(airplane_number = airplane, trip_id = trip).update(FIRST = First -F, BUSINESS = Business - B, ECONOMY = Economy - E)
+                return HttpResponseRedirect(reverse('index'))
+            else:
+                print("Not enough seats available")
+        return render(request,'bookings/payment.html')
 
 @login_required
 def search(request):
@@ -125,8 +178,9 @@ def search(request):
     return HttpResponseRedirect(reverse('index'))
 
 @login_required
-def trip(request,tripId):
-    request.session["tasks"] = tripId
+def trip(request,tripId,airplane_number_id):
+    request.session["trip"] = tripId
+    request.session["airplane"] = airplane_number_id
     request.session.modified = True
     return HttpResponseRedirect(reverse('book'))
 
