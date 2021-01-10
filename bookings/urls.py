@@ -9,6 +9,7 @@ urlpatterns = [
     path('result/', views.search, name = 'result'),
     path('book/', book.as_view(), name = 'book'),
     path('user_login/', views.user_login, name = 'user_login'),
-    path('payment/', views.payment, name = 'payment')
+    path('payment/', views.payment, name = 'payment'),
+    path('trip/<tripId>', views.trip, name= 'trip')
 
 ]

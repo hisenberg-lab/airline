@@ -124,6 +124,11 @@ def search(request):
                 return render(request, "bookings/result.html", {'available' : False})
     return HttpResponseRedirect(reverse('index'))
 
+@login_required
+def trip(request,tripId):
+    request.session["tasks"] = tripId
+    return HttpResponseRedirect(reverse('book'))
+
 # @login_required
 class book(TemplateView):
     #    if request.method == 'POST':
@@ -135,7 +140,8 @@ class book(TemplateView):
     def post(self, *args, **kwargs):
         formset = passengerSet(data=self.request.POST)
         if formset.is_valid():
-            p = formset.cleaned_data
+            if formset.cleaned_data != {}:
+                p = formset.cleaned_data
         
             # d =formset.deleted_forms
             print(p)
