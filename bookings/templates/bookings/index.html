@@ -1,19 +1,27 @@
 {% extends "bookings/base.html" %}
-{% block body_block %}<div class="container-fluid">
-  <div class="jumbotron">
+{% load static %}
+{% block body_block %}
+<hr>
+<div class="container">
+  {% if user.is_authenticated %}
+  <div class="jumbotron text-success bg-warning shadow-lg">
     <h1>Welcome to the AMC Airlines !</h1>
-    {% if user.is_authenticated %}
-        <h2>Hello {{ user.username }}</h2>
-    {% else %}
-        <h2>Register or Login if you'd like to</h2>
-    {% endif %}
+        <h2>Hello, {{ user.username }}</h2>
+  </div>
+  {% else %}
+  <div class="jumbotron bg-warning shadow-lg">
+      <h1>Welcome to the AMC Airlines !</h1>
+        <h2>Register or Login if you'd like to book tickets.</h2>
+  {% endif %}
   </div>
 </div>
 
+{% if user.is_authenticated %}
 <div>
+  <div class="container">
   <form method = "POST" action={% url 'result' %}>.
     {% csrf_token %}
-    <table class="table table-bordered">
+    <table class="table table-bordered table-hover table-info shadow-lg" id="search_table">
       <thead>
         <tr>
           <th scope="col"><label for="from" class="font-weight-bold">From</label>
@@ -77,7 +85,14 @@
         </tr>
       </tbody>
     </table>
-  <button class="btn btn-primary" type="submit">Search</button>
+  <button class="btn btn-outline-success w-100" type="submit">Search</button>
   </form>
 </div>
+</div>
+{% else %}
+<div class="container-fluid" id="banner">
+  <img src="{% static 'bookings/images/banner.png' %}" class="img-fluid" alt="...">
+  </div>
+{% endif %}
+
 {% endblock %}
