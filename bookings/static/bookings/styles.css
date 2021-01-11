@@ -42,3 +42,8 @@ html{
     width: 1600px;
     object-fit: fill;
 }
+
+
+caption{
+    caption-side: top !important
+}

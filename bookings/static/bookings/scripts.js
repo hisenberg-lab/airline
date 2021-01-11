@@ -1,3 +1,33 @@
+let hide1 = document.querySelector("#hide1")
+let hide2 = document.querySelector("#hide2")
+let oneWay = document.querySelector("#one-way")
+let roundTrip = document.querySelector("#round-trip")
+
+oneWay.addEventListener('click', function(){
+    console.log(this.value)
+    if(this.value == 1){
+        hide1.style="display:none"
+        hide2.style="display:none"
+
+    }
+    else{
+        hide1.style="display:block"
+        hide2.style="display:block"
+    }
+})
+
+roundTrip.addEventListener('click', function(){
+    console.log(this.value)
+    if(this.value == 2){
+        hide1.style="display:block"
+        hide2.style="display:block"
+
+    }
+    else{
+        hide1.style="display:none"
+        hide2.style="display:none"
+    }
+})
 // function addRows(){
 //     var table = document.getElementById('passenger')
 //     var rowCount = table.rows.length;

@@ -128,17 +128,17 @@ def search(request):
     if request.method == 'POST':
         fromPlace = request.POST.get('from')
         toPlace = request.POST.get('to')
-        oneWay = request.POST.get('one-way')
-        roundTrip = request.POST.get('round-trip')
+        tripWay = request.POST.get('tripWay')
+        # roundTrip = request.POST.get('round-trip')
         departure = request.POST.get('departure-date')
         returnDate = request.POST.get('return-date')
         travellers = request.POST.get('number-of-travellers')
         seatClass = request.POST.get('class')
-        print(fromPlace,toPlace,oneWay,roundTrip,departure,returnDate,travellers,seatClass)
+        print(fromPlace,toPlace,tripWay,departure,returnDate,travellers,seatClass)
 
         flightTrip = FLIGHT_TRIP.objects.filter(DEPARTURE_AIRPORT__exact = fromPlace , ARIVAL_AIRPORT__exact = toPlace, )
         
-        if oneWay == '1':
+        if tripWay == '1':
             flightTrip = flightTrip.select_related('airplane_number').filter(DEPART_TIME__date = departure).values()
             airplanes = flightTrip.values_list('airplane_number','TRIP_ID')
             airports = flightTrip.values_list('DEPARTURE_AIRPORT','ARIVAL_AIRPORT')
@@ -153,10 +153,11 @@ def search(request):
                 content = {
                     'planes' : zip(flightTrip.values(), seat.values(), fare.values(), departAirport.values(), arivalAirport.values())
                 }
+                print("Inside oneway")
                 return render(request, "bookings/result.html", content)
             else:
                 return render(request, "bookings/result.html", {'available' : False})
-        elif roundTrip == '2':
+        elif tripWay == '2':
             flightTrip = flightTrip.select_related('airplane_number').filter(DEPART_TIME__date = departure, ARIVAL_TIME__date = returnDate).values()
             airplanes = flightTrip.values_list('airplane_number','TRIP_ID')
             airports = flightTrip.values_list('DEPARTURE_AIRPORT','ARIVAL_AIRPORT')

@@ -19,9 +19,10 @@
 {% if user.is_authenticated %}
 <div>
   <div class="container">
-  <form method = "POST" action={% url 'result' %}>.
+  <form method = "POST" action={% url 'search' %}>.
     {% csrf_token %}
     <table class="table table-bordered table-hover table-info shadow-lg" id="search_table">
+      <caption>Search Flights</caption>
       <thead>
         <tr>
           <th scope="col"><label for="from" class="font-weight-bold">From</label>
@@ -30,7 +31,7 @@
           </th>
           <th scope="col">Trip way</th>
           <th scope="col"><label for="departure-date" class="font-weight-bold">Departure date</label>
-          <th scope="col"><label for="return-date" class="font-weight-bold">Return date</label>
+          <th scope="col" id="hide1"><label for="return-date" class="font-weight-bold">Return date</label>
           <th scope="col"><label for="number-of-travellers" class="font-weight-bold">Number of Travellers</label>
           <th scope="col"><label for="class" class="font-weight-bold">Class</label>
         </tr>
@@ -53,14 +54,14 @@
           </td>
           <td>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="one-way" id="one-way" value = '1' >
-              <label class="form-check-label" for="one-way">
+              <input class="form-check-input" type="radio" name="tripWay" id="one-way" value = '1' >
+              <label class="form-check-label" for="tripway">
                 One Way
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="round-trip" id="round-tip" value = '2'>
-              <label class="form-check-label" for="round-tip">
+              <input class="form-check-input" type="radio" name="tripWay" id="round-trip" value = '2'>
+              <label class="form-check-label" for="tripway">
                 Round trip
               </label>
             </div>
@@ -68,7 +69,7 @@
           <td>
               <input class="form-control" name="departure-date" placeholder="departure" type="date"/>
           </td>
-          <td>
+          <td id="hide2">
             <input class="form-control" name="return-date" placeholder="return" type="date"/>
         </td>
         <td>
@@ -85,7 +86,7 @@
         </tr>
       </tbody>
     </table>
-  <button class="btn btn-outline-success w-100" type="submit">Search</button>
+  <button class="btn btn-outline-success w-25" type="submit">Search</button>
   </form>
 </div>
 </div>
