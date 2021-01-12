@@ -58,6 +58,7 @@ def user_login(request):
             if user.is_active:
                 login(request,user)
                 request.session['user_id'] = user.id
+                print(user.id)
                 return HttpResponseRedirect(reverse('index'))
             else:
                 return HttpResponse("Your account was inactive.")
@@ -70,7 +71,7 @@ def user_login(request):
 
 @login_required
 def payment(request):
-    User = int(request.session["user_id"])
+    User = request.session["user_id"]
     trip = int(request.session["trip"])
     # _ = AIRPLANE.objects.all()
     # print(_.values())
@@ -114,7 +115,7 @@ def payment(request):
             Business = seat.BUSINESS
             Economy = seat.ECONOMY
             if (First - F) and (Business - B) and (Economy - E) !=0:
-                p = PASSENGER.objects.create(FNAME=fname, LNAME=lname, PHONE = phone, airplane_number_id = airplane, SEX = sex, CLASS = Class,user_id = User)
+                p = PASSENGER.objects.create(FNAME=fname, LNAME=lname, PHONE = phone, airplane_number_id = airplane, SEX = sex, CLASS = Class,userId_id = User)
                 p.save()
                 print("INSERTED")
                 seat = SEAT.objects.filter(airplane_number = airplane, trip_id = trip).update(FIRST = First -F, BUSINESS = Business - B, ECONOMY = Economy - E)

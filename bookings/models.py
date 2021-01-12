@@ -69,7 +69,7 @@ class PASSENGER(models.Model):
     # seat_number = models.ForeignKey(SEAT, on_delete=models.CASCADE)
     SEX = models.CharField(choices = GENDER ,max_length = 1)
     CLASS = models.CharField(choices = seat_class, max_length = 1)
-    user = models.ForeignKey(USER_INFO, on_delete=models.RESTRICT)
+    userId = models.ForeignKey(USER_INFO, to_field="user" , on_delete=models.RESTRICT)
 class FARE(models.Model):
     trip_id = models.ForeignKey(FLIGHT_TRIP,to_field= 'TRIP_ID', on_delete=models.CASCADE)
     AMOUNT = models.FloatField(max_length = 6)
