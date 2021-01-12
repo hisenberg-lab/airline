@@ -1,8 +1,9 @@
 {% extends "bookings/base.html" %}
 {% block body_block %}
+<div class="container">
 <form id="form-container" method = "POST" action = "{% url 'book' %}">
   {% csrf_token %}
-  
+  <h3>Add Passengers</h3>
       {{ passenger_set.management_form }}
       {% for form in passenger_set %}
       <table class="table table-borderedr passenger-form">
@@ -19,6 +20,7 @@
     <button class="btn btn-outline-success" type="button" id="addRow">+</button>
     <button class="btn btn-success" type="submit" >Submit</button>
     </form>
+    </div>
     <!-- <input type="hidden" name="form-TOTAL_FORMS" value="1" id="id_form-TOTAL_FORMS">
     <input type="hidden" name="form-INITIAL_FORMS" value="0" id="id_form-INITIAL_FORMS">
     <input type="hidden" name="form-MIN_NUM_FORMS" value="0" id="id_form-MIN_NUM_FORMS">

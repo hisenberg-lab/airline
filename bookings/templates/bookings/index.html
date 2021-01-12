@@ -4,7 +4,7 @@
 <hr>
 <div class="container">
   {% if user.is_authenticated %}
-  <div class="jumbotron text-success bg-warning shadow-lg">
+  <div class="jumbotron text-success bg-warning bg-gradient shadow-lg">
     <h1>Welcome to the AMC Airlines !</h1>
         <h2>Hello, {{ user.username }}</h2>
   </div>
@@ -95,5 +95,9 @@
   <img src="{% static 'bookings/images/banner.png' %}" class="img-fluid" alt="...">
   </div>
 {% endif %}
+<div>
+  <img src="{{user.profile.url}}" class="img-fluid" alt="...">
+
+</div>
 
 {% endblock %}
