@@ -50,12 +50,9 @@ roundTrip.addEventListener('click', function(){
     // }
 // }
 
-let passengerForm = document.querySelectorAll(".passenger-form")
-let container = document.querySelector("#form-container")
-let addRow = document.querySelector("#addRow")
-let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
-let formNum = passengerForm.length - 1
-addRow.addEventListener('click', addForm)
+
+// let addRow = document.querySelector("#addRow")
+// addRow.addEventListener('click', addForm)
 
 // for(let i=0; i<=formNum; i++){
 //     checkBox = document.querySelector(`#id_form-${i}-DELETE`,'g')
@@ -63,9 +60,13 @@ addRow.addEventListener('click', addForm)
 //     // checkBox.addEventListener('click', deleteForm(i))
 // } 
 
-function addForm(e){
-    e.preventDefault()
+function addForm(){
+    // e.preventDefault()
     // console.log(passengerForm)
+    let passengerForm = document.querySelectorAll(".passenger-form")
+    let container = document.querySelector("#form-container")
+    let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+    let formNum = passengerForm.length - 1
     let newForm = passengerForm[0].cloneNode(true)
     let formRegex = RegExp(`form-(\\d){1}-`,'g')
     formNum++

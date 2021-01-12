@@ -57,7 +57,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
-                request.session['user_id'] = user.id
+                request.session['userId'] = user.id
                 print(user.id)
                 return HttpResponseRedirect(reverse('index'))
             else:
@@ -71,7 +71,7 @@ def user_login(request):
 
 @login_required
 def payment(request):
-    User = request.session["user_id"]
+    User = int(request.session["userId"])
     trip = int(request.session["trip"])
     # _ = AIRPLANE.objects.all()
     # print(_.values())
