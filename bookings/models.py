@@ -19,6 +19,7 @@ seat_class = (
     ("B", "BUSINESS"),
     ("E", "ECONOMY")
 )    
+
 class USER_INFO(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length = 13)
@@ -74,6 +75,7 @@ class PASSENGER(models.Model):
     SEX = models.CharField(choices = GENDER ,max_length = 1)
     CLASS = models.CharField(choices = seat_class, max_length = 1)
     user = models.ForeignKey(USER_INFO, to_field="user" , on_delete=models.RESTRICT)
+
 class FARE(models.Model):
     trip_id = models.ForeignKey(FLIGHT_TRIP,to_field= 'TRIP_ID', on_delete=models.CASCADE)
     AMOUNT = models.FloatField(max_length = 6)
@@ -81,6 +83,7 @@ class FARE(models.Model):
     TAX = models.FloatField(max_length = 6)
     CURRENCY = models.CharField(max_length = 4, default = 'INR')
 
+#TABLE UPDATED ONLY BY TRIGGER
 class TRANSACTION(models.Model):
     user = models.ForeignKey(USER_INFO, to_field="user" , on_delete=models.CASCADE)
     date = models.DateTimeField()
