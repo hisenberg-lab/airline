@@ -42,14 +42,14 @@ Home
       <tbody>
         <tr>
           <td>
-            <select class="form-select form-select-sm" name="from" aria-label=".form-select-sm example">
+            <select class="form-select form-select-sm" name="from" aria-label=".form-select-sm example" required>
               {% for airport in airports %}
                 <option value="{{ airport.AIRPORT_CODE }}">{{ airport.CITY }}</option>
               {% endfor %}
             </select>
           </td>
           <td>
-            <select class="form-select form-select-sm" name="to" aria-label=".form-select-sm example">
+            <select class="form-select form-select-sm" name="to" aria-label=".form-select-sm example" required>
               {% for airport in airports %}
                 <option value="{{ airport.AIRPORT_CODE }}">{{ airport.CITY }}</option>
               {% endfor %}
@@ -63,14 +63,14 @@ Home
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="tripWay" id="round-trip" value = '2'>
+              <input class="form-check-input" type="radio" name="tripWay" id="round-trip" value = '2' checked>
               <label class="form-check-label" for="tripway">
                 Round trip
               </label>
             </div>
           </td>
           <td>
-              <input class="form-control" name="departure-date" placeholder="departure" type="date"/>
+              <input class="form-control" name="departure-date" placeholder="departure" type="date" required/>
           </td>
           <td id="hide2">
             <input class="form-control" name="return-date" placeholder="return" type="date"/>
