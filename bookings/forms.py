@@ -14,4 +14,4 @@ class UserProfileInfoForm(forms.ModelForm):
          model = USER_INFO
          fields = ('phone','profile_pic')
 
-passengerSet = modelformset_factory( PASSENGER, exclude=("PID", "airplane_number","userId","trip_id"), extra = 1,can_delete=True)
+passengerSet = modelformset_factory( PASSENGER, exclude=("PID", "airplane_number","user","trip_id"), extra = 1,can_delete=True)

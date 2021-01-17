@@ -21,14 +21,15 @@ RETURNS trigger AS
 $func$
 DECLARE rows INTEGER;
 BEGIN
-rows := (SELECT COUNT(*) FROM bookings_transaction
-WHERE (user_id = NEW.user_id) AND (date > (current_TIMESTAMP - INTERVAL '1' MONTH)));
+rows := (SELECT COUNT(*) FROM public.bookings_transaction
+WHERE (user_id = NEW.user_id)
+AND (DATE BETWEEN current_date AND current_date - INTERVAL '1' MONTH));
 IF rows >= 3 THEN
-UPDATE bookings_user_info 
-SET "DISCOUNT" = 10
+UPDATE public.bookings_user_info
+SET DISCONT = 10
 WHERE user_id = NEW.user_id;
 END IF;
-RETURN NULL;
+RETURN NEW;
 END;
 $func$
 LANGUAGE 'plpgsql';
@@ -38,5 +39,3 @@ AFTER INSERT
 ON bookings_transaction
 FOR EACH ROW
 EXECUTE PROCEDURE discount();
-
-
