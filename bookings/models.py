@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 # Create your models here.
 # class User(models.Model):
 #     UID = models.AutoField(primary_key = True)
@@ -17,11 +18,12 @@ seat_class = (
     ("F","FIRST"),
     ("B", "BUSINESS"),
     ("E", "ECONOMY")
-)
+)    
 class USER_INFO(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length = 13)
-    profile_pic = models.ImageField(upload_to='profile_pics', blank=True) 
+    profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
+    DISCOUNT = models.FloatField(default=0)
 class Airline_Company(models.Model):
     CID = models.AutoField(primary_key = True)
     COMPANY_NAME = models.CharField(max_length = 100)
@@ -60,6 +62,7 @@ class SEAT(models.Model):
     trip_id = models.ForeignKey(FLIGHT_TRIP, to_field="TRIP_ID", on_delete=models.CASCADE)
     class Meta:
         unique_together = ("id", "trip_id")
+        # constraints =[ models.CheckConstraint(check = AIRPLANE.objects.get(AIRPLANE_NUMBER = airplane_number).SEAT_CAPACITY >= FIRST+ECONOMY+BUSINESS)]
 class PASSENGER(models.Model):
     PID = models.AutoField(primary_key = True)
     FNAME = models.CharField(max_length = 30)
@@ -67,12 +70,18 @@ class PASSENGER(models.Model):
     PHONE = models.CharField(max_length = 15)
     airplane_number = models.ForeignKey(AIRPLANE,to_field= 'AIRPLANE_NUMBER', on_delete=models.CASCADE)
     # seat_number = models.ForeignKey(SEAT, on_delete=models.CASCADE)
+    trip_id = models.ForeignKey(FLIGHT_TRIP,to_field= 'TRIP_ID', on_delete=models.CASCADE)
     SEX = models.CharField(choices = GENDER ,max_length = 1)
     CLASS = models.CharField(choices = seat_class, max_length = 1)
-    userId = models.ForeignKey(USER_INFO, to_field="user" , on_delete=models.RESTRICT)
+    user = models.ForeignKey(USER_INFO, to_field="user" , on_delete=models.RESTRICT)
 class FARE(models.Model):
     trip_id = models.ForeignKey(FLIGHT_TRIP,to_field= 'TRIP_ID', on_delete=models.CASCADE)
     AMOUNT = models.FloatField(max_length = 6)
     DISCOUNT = models.FloatField(max_length = 6, default=0)
     TAX = models.FloatField(max_length = 6)
     CURRENCY = models.CharField(max_length = 4, default = 'INR')
+
+class TRANSACTION(models.Model):
+    user = models.ForeignKey(USER_INFO, to_field="user" , on_delete=models.CASCADE)
+    date = models.DateTimeField()
+    trip_id = models.ForeignKey(FLIGHT_TRIP,to_field= 'TRIP_ID', on_delete=models.SET_NULL, null = True)

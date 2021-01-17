@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import USER_INFO, User, Airline_Company, AIRPLANE, AIRPORT, ACCESS, FLIGHT_TRIP, SEAT, PASSENGER, FARE
+from .models import USER_INFO, User, Airline_Company, AIRPLANE, AIRPORT, ACCESS, FLIGHT_TRIP, SEAT, PASSENGER, FARE, TRANSACTION
 
 admin.site.register(USER_INFO)
 admin.site.register(Airline_Company)
@@ -13,3 +13,4 @@ admin.site.register(FLIGHT_TRIP)
 admin.site.register(SEAT)
 admin.site.register(PASSENGER)
 admin.site.register(FARE)
+admin.site.register(TRANSACTION)

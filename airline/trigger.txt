@@ -1,0 +1,17 @@
+CREATE OR REPLACE FUNCTION transaction()
+RETURNS trigger AS
+$func$
+BEGIN
+INSERT INTO public.bookings_transaction(trip_id_id, user_id, DATE)
+VALUES(NEW.trip_id_id, NEW.user_id, current_date);
+RETURN NEW;
+END;
+$func$
+LANGUAGE 'plpgsql';
+
+
+CREATE TRIGGER add_transact
+AFTER INSERT
+ON bookings_passenger
+FOR EACH ROW
+EXECUTE PROCEDURE transaction();

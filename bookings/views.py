@@ -115,7 +115,7 @@ def payment(request):
             Business = seat.BUSINESS
             Economy = seat.ECONOMY
             if (First - F) and (Business - B) and (Economy - E) !=0:
-                p = PASSENGER.objects.create(FNAME=fname, LNAME=lname, PHONE = phone, airplane_number_id = airplane, SEX = sex, CLASS = Class,userId_id = User)
+                p = PASSENGER.objects.create(FNAME=fname, LNAME=lname, PHONE = phone, airplane_number_id = airplane, SEX = sex, CLASS = Class,user_id = User, trip_id_id =trip)
                 p.save()
                 print("INSERTED")
                 seat = SEAT.objects.filter(airplane_number = airplane, trip_id = trip).update(FIRST = First -F, BUSINESS = Business - B, ECONOMY = Economy - E)
