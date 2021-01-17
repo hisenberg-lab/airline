@@ -1,4 +1,5 @@
 {% extends "bookings/base.html" %}
+{% load static %}
 {% block title %}
 Search Result
 {% endblock %}
@@ -58,5 +59,14 @@ Search Result
         {% endfor %}
         </tbody>
         </table>
+        {% if available == False %}
+          <div class="container" id="oops">
+          <h3><b>Oops! No Flights Available For The Selected Route.</b></h3>
+          <img src="{% static 'bookings/images/oops.jpg' %}" class="img-fluid" alt="...">
+        </div>
+        {% endif %}
 </div>
+<div class="container-fluid" id="banner">
+  <img src="{% static 'bookings/images/result.jpg' %}" class="img-fluid" alt="...">
+  </div>
 {% endblock%}

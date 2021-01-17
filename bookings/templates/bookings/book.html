@@ -1,5 +1,5 @@
 {% extends "bookings/base.html" %}
-
+{% load static %}
 {% block title %}
 Add Passengers
 {% endblock %}
@@ -24,6 +24,10 @@ Add Passengers
     <button class="btn btn-outline-success" type="button" id="addRow" onclick="addForm()">+</button>
     <button class="btn btn-success" type="submit" >Submit</button>
     </form>
+    </div>
+
+    <div class="container-fluid" id="banner">
+      <img src="{% static 'bookings/images/passenger.jpg' %}" class="img-fluid" alt="...">
     </div>
     <!-- <input type="hidden" name="form-TOTAL_FORMS" value="1" id="id_form-TOTAL_FORMS">
     <input type="hidden" name="form-INITIAL_FORMS" value="0" id="id_form-INITIAL_FORMS">
