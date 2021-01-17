@@ -58,6 +58,7 @@ def user_login(request):
             if user.is_active:
                 login(request,user)
                 request.session['userId'] = user.id
+                request.session['discount'] = USER_INFO.objects.get(user_id = user.id).DISCOUNT
                 print(user.id)
                 return HttpResponseRedirect(reverse('index'))
             else:
@@ -85,7 +86,7 @@ def payment(request):
         fare = FARE.objects.get(trip_id = trip)
         # print(fare.id)
         amount = fare.AMOUNT
-        discount = fare.DISCOUNT
+        discount = request.session["discount"]
         tax = fare.TAX
         print(tax)
         currency = fare.CURRENCY

@@ -79,7 +79,7 @@ class PASSENGER(models.Model):
 class FARE(models.Model):
     trip_id = models.ForeignKey(FLIGHT_TRIP,to_field= 'TRIP_ID', on_delete=models.CASCADE)
     AMOUNT = models.FloatField(max_length = 6)
-    DISCOUNT = models.FloatField(max_length = 6, default=0)
+    # DISCOUNT = models.FloatField(max_length = 6, default=0)
     TAX = models.FloatField(max_length = 6)
     CURRENCY = models.CharField(max_length = 4, default = 'INR')
 
