@@ -155,11 +155,14 @@ def search(request):
                 depart, arival = zip(*airports)
                 seat = SEAT.objects.filter(airplane_number__in = airplane_number, trip_id__in = trip_id)
                 fare = FARE.objects.filter(trip_id__in = trip_id)
-                departAirport = AIRPORT.objects.filter(AIRPORT_CODE__in = depart)
-                arivalAirport = AIRPORT.objects.filter(AIRPORT_CODE__in = arival)
+                departAirport = AIRPORT.objects.filter(AIRPORT_CODE__in = depart).values_list('AIRPORT_NAME',flat=True)
+                arivalAirport = AIRPORT.objects.filter(AIRPORT_CODE__in = arival).values_list('AIRPORT_NAME',flat=True)
                 # print(flightTrip.values(), seat.values(), fare.values())
+                # print(departAirport[0])
                 content = {
-                    'planes' : zip(flightTrip.values(), seat.values(), fare.values(), departAirport.values(), arivalAirport.values())
+                    'planes' : zip(flightTrip.values(), seat.values(), fare.values()),
+                    'd' : departAirport[0],
+                    'a' : arivalAirport[0]
                 }
                 print("Inside oneway")
                 if request.session["discount"] != 0:
@@ -177,12 +180,16 @@ def search(request):
                 depart, arival = zip(*airports)
                 seat = SEAT.objects.filter(airplane_number__in = airplane_number, trip_id__in = trip_id)
                 fare = FARE.objects.filter(trip_id__in = trip_id)
-                departAirport = AIRPORT.objects.filter(AIRPORT_CODE__in = depart)
-                arivalAirport = AIRPORT.objects.filter(AIRPORT_CODE__in = arival)
-                # print(flightTrip.values(), seat.values(), fare.values(), departAirport.values(), arivalAirport.values())
+                departAirport = AIRPORT.objects.filter(AIRPORT_CODE__in = depart).values_list('AIRPORT_NAME',flat=True)
+                arivalAirport = AIRPORT.objects.filter(AIRPORT_CODE__in = arival).values_list('AIRPORT_NAME',flat=True)
+                # print(flightTrip.values(), seat.values(), fare.values())
+                # print(departAirport[0])
                 content = {
-                    'planes' : zip(flightTrip.values(), seat.values(), fare.values(), departAirport.values(), arivalAirport.values())
+                    'planes' : zip(flightTrip.values(), seat.values(), fare.values()),
+                    'd' : departAirport[0],
+                    'a' : arivalAirport[0]
                 }
+                # print(type(content))
                 if request.session["discount"] != 0:
                     messages.success(request,'Congratulation, book any flight now and avail %s discount!'% (str(request.session["discount"])+'%'))
                 return render(request, "bookings/result.html", content)
