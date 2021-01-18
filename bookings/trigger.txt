@@ -28,6 +28,10 @@ IF rows >= 3 THEN
 UPDATE public.bookings_user_info
 SET DISCONT = 10
 WHERE user_id = NEW.user_id;
+ELSE
+UPDATE public.bookings_user_info
+SET DISCONT = 0
+WHERE user_id = NEW.user_id;
 END IF;
 RETURN NEW;
 END;

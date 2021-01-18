@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.contrib import messages
+from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
 from bookings.forms import UserForm, UserProfileInfoForm, passengerSet
 from django.http import HttpResponse, HttpResponseRedirect
@@ -70,6 +72,8 @@ def user_login(request):
     else:
         return render(request, 'bookings/login.html', {})
 
+
+
 @login_required
 def payment(request):
     User = int(request.session["userId"])
@@ -123,6 +127,8 @@ def payment(request):
                 return HttpResponseRedirect(reverse('index'))
             else:
                 print("Not enough seats available")
+                messages.error(request,'There are no seats available for the selected preference !')
+                return redirect('book')
         return render(request,'bookings/payment.html')
 
 @login_required
@@ -156,6 +162,8 @@ def search(request):
                     'planes' : zip(flightTrip.values(), seat.values(), fare.values(), departAirport.values(), arivalAirport.values())
                 }
                 print("Inside oneway")
+                if request.session["discount"] != 0:
+                    messages.success(request,'Congratulation, book any flight now and avail %s discount!'% (str(request.session["discount"])+'%'))
                 return render(request, "bookings/result.html", content)
             else:
                 return render(request, "bookings/result.html", {'available' : False})
@@ -175,6 +183,8 @@ def search(request):
                 content = {
                     'planes' : zip(flightTrip.values(), seat.values(), fare.values(), departAirport.values(), arivalAirport.values())
                 }
+                if request.session["discount"] != 0:
+                    messages.success(request,'Congratulation, book any flight now and avail %s discount!'% (str(request.session["discount"])+'%'))
                 return render(request, "bookings/result.html", content)
             else:
                 return render(request, "bookings/result.html", {'available' : False})
